@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nihongo N5 - Belajar JLPT N5</title>
+  <meta name="description" content="Website statis untuk belajar JLPT N5: kanji, kosakata, flashcard, quiz, latihan ujian, dan percakapan bahasa Jepang." />
+  <meta name="theme-color" content="#dc2626" />
+  <meta property="og:title" content="Nihongo N5 - Belajar JLPT N5" />
+  <meta property="og:description" content="Belajar Kanji dan latihan JLPT N5 secara terarah dengan flashcard, quiz, dan progress lokal." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur-xl">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+      <button onclick="scrollToSection('home')" class="flex items-center gap-3 text-left">
+        <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-600 text-xl font-black text-white shadow-lg shadow-red-200">漢</span>
+        <span>
+          <span class="block text-lg font-black leading-tight">Nihongo N5</span>
+          <span class="block text-xs font-semibold text-slate-500">Static JLPT N5 App</span>
+        </span>
+      </button>
+
+      <div class="hidden items-center gap-6 text-sm font-bold text-slate-600 md:flex">
+        <button onclick="scrollToSection('kanji')" class="hover:text-red-600">Kanji</button>
+        <button onclick="scrollToSection('flashcard')" class="hover:text-red-600">Flashcard</button>
+        <button onclick="scrollToSection('quiz')" class="hover:text-red-600">Quiz</button>
+        <button onclick="scrollToSection('jlpt')" class="hover:text-red-600">Latihan JLPT</button>
+        <button onclick="scrollToSection('conversation')" class="hover:text-red-600">Percakapan</button>
+      </div>
+
+      <button onclick="scrollToSection('kanji')" class="rounded-2xl bg-slate-950 px-4 py-2 text-sm font-bold text-white hover:bg-red-600">Mulai</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="relative overflow-hidden">
+      <div class="absolute inset-0 -z-10 japanese-pattern"></div>
+      <div class="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-[1.1fr_.9fr] lg:py-24">
+        <div class="flex flex-col justify-center">
+          <span class="mb-5 w-fit rounded-full bg-red-100 px-4 py-2 text-sm font-black text-red-700">JLPT N5 • Flashcard • Quiz • Latihan Ujian</span>
+          <h1 class="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">Belajar Kanji N5 dengan lebih terarah.</h1>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">Website statis untuk belajar JLPT N5 secara terarah. Kamu bisa belajar kanji, mencari kosakata, latihan flashcard, mengerjakan quiz, membaca percakapan, dan melihat progress belajar di browser.</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <button onclick="scrollToSection('kanji')" class="rounded-2xl bg-red-600 px-6 py-4 font-black text-white shadow-xl shadow-red-200 hover:bg-red-700">Lihat Daftar Kanji</button>
+            <button onclick="scrollToSection('quiz')" class="rounded-2xl border border-slate-300 bg-white px-6 py-4 font-black text-slate-800 hover:bg-slate-50">Coba Quiz</button>
+          </div>
+        </div>
+
+        <div class="rounded-[2.5rem] border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-200/70">
+          <div class="rounded-[2rem] bg-slate-950 p-8 text-white">
+            <p class="text-sm font-bold text-red-300">Kanji hari ini</p>
+            <div class="mt-4 flex items-end justify-between">
+              <h2 class="text-8xl font-black leading-none">日</h2>
+              <div class="text-right">
+                <p class="text-xl font-black">にほん</p>
+                <p class="text-slate-400">日本 = Jepang</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 grid grid-cols-2 gap-4">
+            <div class="rounded-3xl bg-red-50 p-5">
+              <p class="text-sm font-bold text-red-600">Target</p>
+              <p class="mt-1 text-3xl font-black">N5</p>
+            </div>
+            <div class="rounded-3xl bg-slate-100 p-5">
+              <p class="text-sm font-bold text-slate-500">Mode</p>
+              <p class="mt-1 text-3xl font-black">Quiz</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-5 pb-8">
+      <div class="grid gap-4 md:grid-cols-4">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><p class="text-sm font-bold text-slate-500">Total Kanji</p><p id="statTotal" class="mt-2 text-4xl font-black">0</p></div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><p class="text-sm font-bold text-slate-500">Sudah Dipelajari</p><p id="statDone" class="mt-2 text-4xl font-black text-emerald-600">0</p></div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><p class="text-sm font-bold text-slate-500">Belum Dipelajari</p><p id="statRemaining" class="mt-2 text-4xl font-black text-red-600">0</p></div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><p class="text-sm font-bold text-slate-500">Progress</p><p id="statPercent" class="mt-2 text-4xl font-black">0%</p></div>
+      </div>
+      <div class="mt-5 h-4 overflow-hidden rounded-full bg-slate-200">
+        <div id="progressBar" class="h-full rounded-full bg-red-600 transition-all duration-500" style="width:0%"></div>
+      </div>
+    </section>
+
+    <section id="kanji" class="mx-auto max-w-7xl px-5 py-14">
+      <div class="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="font-black text-red-600">Daftar Kanji</p>
+          <h2 class="mt-2 text-3xl font-black md:text-4xl">Kanji JLPT N5</h2>
+          <p id="resultCount" class="mt-2 text-slate-500">0 kanji ditampilkan</p>
+        </div>
+        <div class="flex flex-col gap-3 md:min-w-[420px]">
+          <input id="searchInput" type="search" placeholder="Cari kanji, arti, onyomi, kunyomi, kosakata..." class="w-full rounded-2xl border border-slate-200 bg-white px-5 py-3 font-semibold outline-none focus:border-red-400 focus:ring-4 focus:ring-red-100" />
+          <div class="flex flex-wrap gap-2">
+            <button data-filter="all" class="rounded-2xl bg-slate-950 px-4 py-2 text-sm font-bold text-white">Semua</button>
+            <button data-filter="learned" class="rounded-2xl border border-slate-200 px-4 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50">Sudah</button>
+            <button data-filter="unlearned" class="rounded-2xl border border-slate-200 px-4 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50">Belum</button>
+          </div>
+        </div>
+      </div>
+      <div id="kanjiGrid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+    </section>
+
+    <section id="flashcard" class="bg-white py-16">
+      <div class="mx-auto max-w-5xl px-5">
+        <div class="mb-8 text-center">
+          <p class="font-black text-red-600">Flashcard</p>
+          <h2 class="mt-2 text-3xl font-black md:text-4xl">Latihan hafalan cepat</h2>
+          <p class="mt-3 text-slate-500">Lihat kanji dulu, lalu cek jawabannya.</p>
+        </div>
+        <div class="rounded-[2rem] border border-slate-200 bg-slate-50 p-5 md:p-8">
+          <div class="rounded-[2rem] bg-white p-8 shadow-sm">
+            <div class="mb-5 flex items-center justify-between gap-3">
+              <p id="flashMeta" class="font-bold text-slate-500">Kanji #1</p>
+              <span id="flashStatus" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-500">Belum dipelajari</span>
+            </div>
+            <div class="flex min-h-56 items-center justify-center rounded-[2rem] bg-slate-950">
+              <p id="flashKanji" class="text-9xl font-black text-white">一</p>
+            </div>
+            <div id="flashAnswer" class="mt-6 rounded-3xl border border-slate-200 bg-white p-5"></div>
+            <div class="mt-6 grid gap-3 sm:grid-cols-3">
+              <button id="revealBtn" onclick="revealFlashcard()" class="rounded-2xl bg-red-600 px-5 py-3 font-black text-white hover:bg-red-700">Lihat Jawaban</button>
+              <button onclick="nextFlashcard()" class="rounded-2xl border border-slate-300 bg-white px-5 py-3 font-black text-slate-800 hover:bg-slate-50">Selanjutnya</button>
+              <button onclick="markFlashcardLearned()" class="rounded-2xl bg-emerald-600 px-5 py-3 font-black text-white hover:bg-emerald-700">Saya Hafal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz" class="mx-auto max-w-5xl px-5 py-16">
+      <div class="mb-8 text-center">
+        <p class="font-black text-red-600">Quiz</p>
+        <h2 class="mt-2 text-3xl font-black md:text-4xl">Uji pemahaman kanji</h2>
+        <p class="mt-3 text-slate-500">Soal random dengan pilihan ganda dan pembahasan.</p>
+      </div>
+      <div class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+        <div class="mb-6 grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl bg-slate-50 p-4"><p class="text-sm font-bold text-slate-500">Skor Sekarang</p><p id="quizScore" class="text-2xl font-black">0/0</p></div>
+          <div class="rounded-2xl bg-slate-50 p-4"><p class="text-sm font-bold text-slate-500">Skor Terakhir</p><p id="lastScore" class="text-2xl font-black">Belum ada</p></div>
+          <select id="quizType" class="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold outline-none focus:border-red-400 focus:ring-4 focus:ring-red-100">
+            <option value="meaning">Tebak arti kanji</option>
+            <option value="kanji">Tebak kanji dari arti</option>
+            <option value="onyomi">Tebak onyomi</option>
+            <option value="kunyomi">Tebak kunyomi</option>
+            <option value="vocab">Tebak arti kosakata</option>
+          </select>
+        </div>
+        <div class="rounded-[1.5rem] bg-slate-950 p-6 text-white">
+          <p class="text-sm font-bold text-red-300">Pertanyaan</p>
+          <h3 id="quizQuestion" class="mt-3 text-2xl font-black leading-relaxed"></h3>
+        </div>
+        <div id="quizOptions" class="mt-5 grid gap-3 md:grid-cols-2"></div>
+        <div id="quizExplanation" class="mt-5"></div>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <button onclick="nextQuiz()" class="rounded-2xl bg-red-600 px-5 py-3 font-black text-white hover:bg-red-700">Soal Berikutnya</button>
+          <button onclick="resetQuiz()" class="rounded-2xl border border-slate-300 bg-white px-5 py-3 font-black text-slate-800 hover:bg-slate-50">Reset Skor</button>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="jlpt" class="bg-slate-50 py-16">
+      <div class="mx-auto max-w-7xl px-5">
+        <div class="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="font-black text-red-600">Latihan JLPT N5</p>
+            <h2 class="mt-2 text-3xl font-black md:text-4xl">Bank soal dari PDF JLPT N5</h2>
+            <p class="mt-3 max-w-3xl text-slate-500">Mode ini memakai isi PDF contoh soal JLPT N5: 文字・語彙, 文法・読解, 聴解, halaman asli, kunci jawaban, dan script listening.</p>
+          </div>
+          <button onclick="scrollToSection('jlptViewer')" class="w-fit rounded-2xl border border-slate-300 bg-white px-5 py-3 font-black text-slate-800 hover:bg-slate-100">Lihat Semua Halaman PDF</button>
+        </div>
+
+        <div class="mb-8 grid gap-4 md:grid-cols-4">
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><p class="text-sm font-bold text-slate-500">Halaman PDF</p><p id="jlptPageTotal" class="mt-2 text-4xl font-black">57</p></div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><p class="text-sm font-bold text-slate-500">Soal Interaktif</p><p id="jlptQuestionTotal" class="mt-2 text-4xl font-black text-red-600">0</p></div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><p class="text-sm font-bold text-slate-500">Skor Latihan</p><p id="jlptScore" class="mt-2 text-4xl font-black text-emerald-600">0/0</p></div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><p class="text-sm font-bold text-slate-500">Skor Terakhir</p><p id="jlptLastScore" class="mt-2 text-2xl font-black">Belum ada</p></div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[.85fr_1.15fr]">
+          <aside class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
+            <h3 class="text-xl font-black">Pilih mode latihan</h3>
+            <p class="mt-2 text-sm text-slate-500">Kamu bisa latihan per bagian atau campur semua soal.</p>
+            <div class="mt-5 grid gap-3">
+              <select id="jlptMode" class="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold outline-none focus:border-red-400 focus:ring-4 focus:ring-red-100">
+                <option value="all">Semua bagian</option>
+                <option value="文字・語彙">文字・語彙 / Vocabulary</option>
+                <option value="文法・読解">文法・読解 / Grammar & Reading</option>
+                <option value="聴解">聴解 / Listening</option>
+              </select>
+              <button onclick="newJlptQuestion()" class="rounded-2xl bg-red-600 px-5 py-3 font-black text-white hover:bg-red-700">Soal Random</button>
+              <button onclick="resetJlptPractice()" class="rounded-2xl border border-slate-300 bg-white px-5 py-3 font-black text-slate-800 hover:bg-slate-50">Reset Skor JLPT</button>
+            </div>
+            <div class="mt-6 rounded-3xl bg-slate-50 p-4">
+              <p class="font-black text-slate-700">Kunci jawaban ringkas</p>
+              <div id="jlptAnswerKeys" class="mt-3 space-y-3 text-sm text-slate-600"></div>
+            </div>
+          </aside>
+
+          <div class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+            <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p id="jlptQuestionMeta" class="font-black text-red-600">Latihan</p>
+                <h3 class="text-2xl font-black">Soal JLPT N5</h3>
+              </div>
+              <span id="jlptQuestionPage" class="w-fit rounded-full bg-slate-100 px-3 py-1 text-sm font-bold text-slate-600">PDF</span>
+            </div>
+            <div id="jlptQuestionBox" class="rounded-[1.5rem] bg-slate-950 p-6 text-white"></div>
+            <div id="jlptOptions" class="mt-5 grid gap-3 md:grid-cols-2"></div>
+            <div id="jlptFeedback" class="mt-5"></div>
+          </div>
+        </div>
+
+        <div class="mt-8 grid gap-6 lg:grid-cols-[1.05fr_.95fr]">
+          <section class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm" id="jlptBank">
+            <div class="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h3 class="text-2xl font-black">Bank soal interaktif</h3>
+                <p class="mt-1 text-sm text-slate-500">Pilih kategori untuk melihat soal yang sudah dibuat interaktif.</p>
+              </div>
+              <select id="jlptBankFilter" class="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold outline-none">
+                <option value="all">Semua</option>
+                <option value="文字・語彙">文字・語彙</option>
+                <option value="文法・読解">文法・読解</option>
+                <option value="聴解">聴解</option>
+              </select>
+            </div>
+            <div id="jlptBankList" class="max-h-[720px] space-y-3 overflow-y-auto pr-2"></div>
+          </section>
+
+          <section class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm" id="jlptViewer">
+            <div class="mb-4">
+              <h3 class="text-2xl font-black">Viewer semua halaman PDF</h3>
+              <p class="mt-1 text-sm text-slate-500">Semua 57 halaman PDF disertakan sebagai gambar agar bagian listening dan tabel asli tetap bisa dilihat.</p>
+            </div>
+            <input id="jlptPageSearch" type="search" placeholder="Cari halaman, bagian, atau teks PDF..." class="mb-4 w-full rounded-2xl border border-slate-200 bg-white px-5 py-3 font-semibold outline-none focus:border-red-400 focus:ring-4 focus:ring-red-100" />
+            <div id="jlptPageList" class="grid max-h-[720px] gap-4 overflow-y-auto pr-2"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="conversation" class="bg-white py-16">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="font-black text-red-600">Percakapan</p>
+            <h2 class="mt-2 text-3xl font-black md:text-4xl">会話 Bahasa Jepang Level N5</h2>
+            <p class="mt-3 max-w-2xl text-slate-500">Percakapan pendek dengan highlight kanji N5 yang sedang dipakai.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button id="toggleRomajiBtn" onclick="toggleRomaji()" class="rounded-2xl border border-slate-300 bg-white px-4 py-2 font-bold hover:bg-slate-50">Sembunyikan Romaji</button>
+            <button id="toggleArtiBtn" onclick="toggleArti()" class="rounded-2xl border border-slate-300 bg-white px-4 py-2 font-bold hover:bg-slate-50">Sembunyikan Arti</button>
+          </div>
+        </div>
+        <div id="conversationList" class="grid gap-5"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="detailModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-sm">
+    <div class="mx-auto my-8 max-w-4xl rounded-[2rem] bg-white p-5 shadow-2xl md:p-8">
+      <div class="mb-5 flex items-center justify-between gap-3">
+        <h2 class="text-xl font-black">Detail Kanji</h2>
+        <button onclick="closeDetail()" class="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-xl font-black hover:bg-red-100 hover:text-red-700">×</button>
+      </div>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+  <footer class="border-t border-slate-200 bg-slate-950 px-5 py-8 text-center text-sm font-semibold text-slate-400">
+    Nihongo N5 • Website statis belajar JLPT N5 • Progress tersimpan di browser
+  </footer>
+
+  <script src="data/kanji-data.js"></script>
+  <script src="data/exam-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/jlpt-app.js"></script>
+</body>
+</html>

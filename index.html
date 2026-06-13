@@ -25,6 +25,8 @@
 
       <div class="hidden items-center gap-6 text-sm font-bold text-slate-600 md:flex">
         <button onclick="scrollToSection('kanji')" class="hover:text-red-600">Kanji</button>
+        <button onclick="scrollToSection('writingSection')" class="hover:text-red-600">Tulis Kanji</button>
+        <button onclick="scrollToSection('vocabSection')" class="hover:text-red-600">Kosakata</button>
         <button onclick="scrollToSection('flashcard')" class="hover:text-red-600">Flashcard</button>
         <button onclick="scrollToSection('quiz')" class="hover:text-red-600">Quiz</button>
         <button onclick="scrollToSection('jlpt')" class="hover:text-red-600">Latihan JLPT</button>
@@ -46,12 +48,12 @@
       <div class="absolute inset-0 -z-10 japanese-pattern"></div>
       <div class="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-[1.1fr_.9fr] lg:py-24">
         <div class="flex flex-col justify-center">
-          <span class="mb-5 w-fit rounded-full bg-red-100 px-4 py-2 text-sm font-black text-red-700">JLPT N5 • Flashcard • Quiz • Latihan Ujian</span>
+          <span class="mb-5 w-fit rounded-full bg-red-100 px-4 py-2 text-sm font-black text-red-700">JLPT N5 • Kanji • Kosakata • Latihan Tulis • Quiz</span>
           <h1 class="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">Belajar Kanji N5 dengan lebih terarah.</h1>
-          <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">Website statis untuk belajar JLPT N5 secara terarah. Kamu bisa belajar kanji, mencari kosakata, latihan flashcard, mengerjakan quiz, membaca percakapan, dan melihat progress belajar di browser.</p>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">Website statis untuk belajar JLPT N5 secara terarah. Kamu bisa belajar kanji, latihan menulis dari workbook, menghafal 800+ kosakata harian, mengerjakan quiz, membaca percakapan, dan melihat progress belajar di browser.</p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row">
             <button onclick="scrollToSection('kanji')" class="rounded-2xl bg-red-600 px-6 py-4 font-black text-white shadow-xl shadow-red-200 hover:bg-red-700">Lihat Daftar Kanji</button>
-            <button onclick="scrollToSection('quiz')" class="rounded-2xl border border-slate-300 bg-white px-6 py-4 font-black text-slate-800 hover:bg-slate-50">Coba Quiz</button>
+            <button onclick="scrollToSection('vocabSection')" class="rounded-2xl border border-slate-300 bg-white px-6 py-4 font-black text-slate-800 hover:bg-slate-50">Kosakata Harian</button>
           </div>
         </div>
 
@@ -108,7 +110,117 @@
           </div>
         </div>
       </div>
+
       <div id="kanjiGrid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+    </section>
+
+    <section id="writingSection" class="bg-slate-50 py-16">
+      <div class="mx-auto max-w-7xl px-5">
+        <div class="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="font-black text-red-600">Latihan Tulis</p>
+            <h2 class="mt-2 text-3xl font-black md:text-4xl">Workbook 103 Kanji Pertama</h2>
+            <p class="mt-3 max-w-3xl text-slate-500">Modul ini memakai workbook kanji yang berisi meaning, onyomi, kunyomi, vocabulary, jumlah stroke, hint, dan grid latihan menulis.</p>
+          </div>
+          <div class="grid grid-cols-3 gap-3 text-center sm:min-w-[360px]">
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"><p class="text-xs font-bold text-slate-500">Workbook</p><p id="writingTotal" class="text-2xl font-black">0</p></div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"><p class="text-xs font-bold text-slate-500">Latihan</p><p id="writingDone" class="text-2xl font-black text-emerald-600">0</p></div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"><p class="text-xs font-bold text-slate-500">Progress</p><p id="writingPercent" class="text-2xl font-black text-red-600">0%</p></div>
+          </div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[.9fr_1.1fr]">
+          <aside class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-4 flex flex-col gap-3 sm:flex-row">
+              <input id="writingSearch" type="search" placeholder="Cari kanji, meaning, reading, hint..." class="w-full rounded-2xl border border-slate-200 bg-white px-5 py-3 font-semibold outline-none focus:border-red-400 focus:ring-4 focus:ring-red-100" />
+            </div>
+            <div id="writingList" class="grid max-h-[720px] gap-3 overflow-y-auto pr-2 sm:grid-cols-2 lg:grid-cols-1"></div>
+          </aside>
+
+          <div class="space-y-6">
+            <div class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-7">
+              <div id="writingCard"></div>
+              <div class="mt-6 grid gap-3 sm:grid-cols-4">
+                <button onclick="prevWorkbook()" class="rounded-2xl border border-slate-300 bg-white px-5 py-3 font-black text-slate-800 hover:bg-slate-50">Sebelumnya</button>
+                <button onclick="nextWorkbook()" class="rounded-2xl bg-red-600 px-5 py-3 font-black text-white hover:bg-red-700">Berikutnya</button>
+                <button onclick="markWritingDone()" class="rounded-2xl bg-emerald-600 px-5 py-3 font-black text-white hover:bg-emerald-700">Sudah Latihan</button>
+                <button onclick="clearWritingCanvas()" class="rounded-2xl border border-slate-300 bg-white px-5 py-3 font-black text-slate-800 hover:bg-slate-50">Hapus Canvas</button>
+              </div>
+            </div>
+
+            <div class="grid gap-6 xl:grid-cols-[.9fr_1.1fr]">
+              <div class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
+                <h3 class="text-xl font-black">Canvas latihan menulis</h3>
+                <p class="mt-1 text-sm text-slate-500">Gunakan mouse atau jari di HP untuk latihan menulis bentuk kanji.</p>
+                <div class="mt-4 overflow-hidden rounded-3xl border border-slate-200 bg-white">
+                  <canvas id="writingCanvas" width="720" height="520" class="writing-canvas block h-[360px] w-full touch-none"></canvas>
+                </div>
+              </div>
+              <div class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
+                <h3 class="text-xl font-black">Halaman asli workbook</h3>
+                <p class="mt-1 text-sm text-slate-500">Gambar halaman asli disertakan agar user bisa melihat grid dan detail dari PDF.</p>
+                <img id="workbookImage" src="" alt="Halaman workbook" class="mt-4 max-h-[520px] w-full rounded-3xl border border-slate-200 bg-slate-50 object-contain" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vocabSection" class="bg-white py-16">
+      <div class="mx-auto max-w-7xl px-5">
+        <div class="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="font-black text-red-600">Kosakata Harian</p>
+            <h2 class="mt-2 text-3xl font-black md:text-4xl">800+ Kosakata Bahasa Jepang</h2>
+            <p class="mt-3 max-w-3xl text-slate-500">Kosakata dari PDF dikelompokkan menjadi sapaan, hari, waktu, bulan, warna, angka, anggota tubuh, sekolah, dapur, buah/sayur, kata sifat, dan kata kerja.</p>
+          </div>
+          <div class="grid grid-cols-4 gap-3 text-center sm:min-w-[460px]">
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"><p class="text-xs font-bold text-slate-500">Total</p><p id="vocabTotal" class="text-2xl font-black">0</p></div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"><p class="text-xs font-bold text-slate-500">Kategori</p><p id="vocabCategoryTotal" class="text-2xl font-black">0</p></div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"><p class="text-xs font-bold text-slate-500">Hafal</p><p id="vocabLearnedTotal" class="text-2xl font-black text-emerald-600">0</p></div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"><p class="text-xs font-bold text-slate-500">Progress</p><p id="vocabPercent" class="text-2xl font-black text-red-600">0%</p></div>
+          </div>
+        </div>
+        <div class="mb-8 h-4 overflow-hidden rounded-full bg-slate-200"><div id="vocabProgressBar" class="h-full rounded-full bg-red-600 transition-all duration-500" style="width:0%"></div></div>
+
+        <div class="grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
+          <div>
+            <div class="mb-5 grid gap-3 md:grid-cols-[1fr_260px]">
+              <input id="vocabSearch" type="search" placeholder="Cari kosakata, romaji, arti, kategori..." class="w-full rounded-2xl border border-slate-200 bg-white px-5 py-3 font-semibold outline-none focus:border-red-400 focus:ring-4 focus:ring-red-100" />
+              <select id="vocabCategory" class="rounded-2xl border border-slate-200 bg-white px-5 py-3 font-bold outline-none focus:border-red-400 focus:ring-4 focus:ring-red-100"></select>
+            </div>
+            <p id="vocabResultCount" class="mb-4 text-sm font-bold text-slate-500">0 kosakata ditampilkan</p>
+            <div id="vocabList" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3"></div>
+          </div>
+
+          <aside class="space-y-6">
+            <div class="rounded-[2rem] border border-slate-200 bg-slate-50 p-5 shadow-sm">
+              <h3 class="text-xl font-black">Flashcard Kosakata</h3>
+              <div id="vocabFlashcardBox" class="mt-4"></div>
+              <div class="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                <button onclick="revealVocabFlashcard()" class="rounded-2xl bg-red-600 px-5 py-3 font-black text-white hover:bg-red-700">Lihat</button>
+                <button onclick="nextVocabFlashcard()" class="rounded-2xl border border-slate-300 bg-white px-5 py-3 font-black text-slate-800 hover:bg-slate-50">Next</button>
+                <button onclick="markVocabFlashcardLearned()" class="rounded-2xl bg-emerald-600 px-5 py-3 font-black text-white hover:bg-emerald-700">Hafal</button>
+              </div>
+            </div>
+
+            <div class="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
+              <div class="mb-4 grid gap-4 sm:grid-cols-2">
+                <div class="rounded-2xl bg-slate-50 p-4"><p class="text-sm font-bold text-slate-500">Skor</p><p id="vocabQuizScore" class="text-2xl font-black">0/0</p></div>
+                <div class="rounded-2xl bg-slate-50 p-4"><p class="text-sm font-bold text-slate-500">Terakhir</p><p id="vocabQuizLastScore" class="text-2xl font-black">Belum ada</p></div>
+              </div>
+              <h3 id="vocabQuizQuestion" class="text-xl font-black leading-relaxed">Quiz kosakata</h3>
+              <div id="vocabQuizOptions" class="mt-5 grid gap-3"></div>
+              <div id="vocabQuizFeedback" class="mt-5"></div>
+              <div class="mt-5 flex flex-wrap gap-3">
+                <button onclick="makeVocabQuiz()" class="rounded-2xl bg-red-600 px-5 py-3 font-black text-white hover:bg-red-700">Soal Baru</button>
+                <button onclick="resetVocabQuiz()" class="rounded-2xl border border-slate-300 bg-white px-5 py-3 font-black text-slate-800 hover:bg-slate-50">Reset</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
     </section>
 
     <section id="flashcard" class="bg-white py-16">
@@ -285,7 +397,11 @@
 
   <script src="data/kanji-data.js"></script>
   <script src="data/exam-data.js"></script>
+  <script src="data/kanji-workbook-data.js"></script>
+  <script src="data/vocab-data.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/writing-app.js"></script>
+  <script src="js/vocab-app.js"></script>
   <script src="js/jlpt-app.js"></script>
 </body>
 </html>
